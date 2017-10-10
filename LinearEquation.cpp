@@ -1,98 +1,120 @@
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-using namespace std;
+/**
+* Name: Rafael Teles Lazaro Lucchesi, Student #: 100273456
+* Class: CPSC 1160
+* Assignment #7
+* Description:
+* 1. Design a class named LinearEquation for a 2x2 system of linear equations. The class contains:
+*	Private data fields a, b, c, d, e, and f;
+*	A constructor with the arguments a, b, c, d, e, and f;
+*	Six get functions for a, b, c, d, e, and f;
+*	A function named isSolvable() that returns true if ad - bc != 0;
+*	Functions getX() and getY() that return the solution for the equation;
+* 2. Write a program that reads four line segment endpoints from a file (coords.txt), and displays the intersection point if it exists.
+*
+* I pledge that I have completed the programming assignment independently.
+* I have notcopied the code from a student or any other source.
+* I have not given my code to any student.
+*
+* Rafael Lucchesi, Jun 27, 2017.
+*/
 
-int const TOTALXYCOORDINATES = 4;
+#include "LinearEquation.h"
 
-class LinearEquation {
-public:
-	LinearEquation(double argA, double argB, double argC, double argD, double argE, double argF) {
-		a = argA;
-		b = argB;
-		c = argC;
-		d = argD;
-		e = argE;
-		f = argF;
-	}
-	
-	double getA() {
-		return a;
-	}
-	double getB() {
-		return b;
-	}
-	double getC() {
-		return c;
-	}
-	double getD() {
-		return d;
-	}
-	double getE() {
-		return e;
-	}
-	double getF() {
-		return f;
-	}
+/*
+ * LinearEquation implementation
+*/
 
-	bool isSolvable() {
-		return (a*d - b*c != 0);
-	}
+// Construct a Linear Equation object with 6 arguments
+LinearEquation::LinearEquation(double argA, double argB, double argC, double argD, double argE, double argF) {
+	a = argA;
+	b = argB;
+	c = argC;
+	d = argD;
+	e = argE;
+	f = argF;
+}
 
-	double getX() {
-		if (isSolvable()) {
-			return (e * d - b * f) / (a * d - b * c);
-		}
-	}
-	double getY() {
-		if (isSolvable()) {
-			return (a * f - e * c) / (a * d - b * c);
-		}
-	}
+// Construct a default Linear Equation
+LinearEquation::LinearEquation() {
+	a = 0;
+	b = 0;
+	c = 0;
+	d = 0;
+	e = 0;
+	f = 0;
+}
 
+// Return the value of the instance variables a
+double LinearEquation::getA() {
+	return a;
+}
 
-private:
-	double a, b, c, d, e, f;
-};
+// Set the value of the instance variables a
+void LinearEquation::setA(double argA) {
+	a = argA;
+}
 
+// Return the value of the instance variables b
+double LinearEquation::getB() {
+	return b;
+}
 
-int main() {
-	fstream file;
-	file.open("coords.txt");
+// Set the value of the instance variables b
+void LinearEquation::setB(double argB) {
+	b = argB;
+}
 
-	if (file.fail()) {
-		cout << "ERROR openning input file" << endl;
-		system("pause");
-		exit(1);
-	}
+// Return the value of the instance variables c
+double LinearEquation::getC() {
+	return c;
+}
 
-	while (!file.eof()) {
-		double* line1 = new double[TOTALXYCOORDINATES + 1];
-		for (int i = 0; i < TOTALXYCOORDINATES; i++) {
-			file >> line1[i];
-		}
-		line1[TOTALXYCOORDINATES] = (line1[3] - line1[1]) / (line1[2] - line1[0]);
-		cout << line1[TOTALXYCOORDINATES] << endl;
+// Set the value of the instance variables c
+void LinearEquation::setC(double argC) {
+	c = argC;
+}
 
-		double* line2 = new double[TOTALXYCOORDINATES + 1];
-		for (int i = 0; i < TOTALXYCOORDINATES; i++) {
-			file >> line2[i];
-		}
-		line2[TOTALXYCOORDINATES] = (line2[3] - line2[1]) / (line2[2] - line2[0]);
-		cout << line2[TOTALXYCOORDINATES] << endl;
+// Return the value of the instance variables d
+double LinearEquation::getD() {
+	return d;
+}
 
-		LinearEquation myLE(-line1[TOTALXYCOORDINATES], 1, -line2[TOTALXYCOORDINATES], 1, line1[1] - line1[TOTALXYCOORDINATES] * line1[0], line2[1] - line2[TOTALXYCOORDINATES] * line2[0]);
+// Set the value of the instance variables d
+void LinearEquation::setD(double argD) {
+	d = argD;
+}
 
-		cout << "Line1 from (" << line1[0] << ", " << line1[1] << ") to (" << line1[2] << ", " << line1[3] << ")." << endl;
-		cout << "Line2 from (" << line2[0] << ", " << line2[1] << ") to (" << line2[2] << ", " << line2[3] << ")." << endl;
-		cout << "Both lines intercept at (" << myLE.getX() << ", " << myLE.getY() << ")." << endl;
-		cout << endl;
+// Return the value of the instance variables e
+double LinearEquation::getE() {
+	return e;
+}
 
-		delete[] line1;
-		delete[] line2;
-		
-	}
+// Set the value of the instance variables e
+void LinearEquation::setE(double argE) {
+	e = argE;
+}
 
-	system("pause");
-	return 0;
+// Return the value of the instance variables f
+double LinearEquation::getF() {
+	return f;
+}
+
+// Set the value of the instance variables f
+void LinearEquation::setF(double argF) {
+	f = argF;
+}
+
+// Return true if the lines within the Linear Equation ever touch each other
+bool LinearEquation::isSolvable() {
+	return (a * d - b * c != 0);
+}
+
+// Return the x-coordinate of the point where the lines touch
+double LinearEquation::getX() {
+	return (e * d - b * f) / (a * d - b * c);
+}
+
+// Return the y-coordinate of the point where the lines touch
+double LinearEquation::getY() {
+	return (a * f - e * c) / (a * d - b * c);
 }
